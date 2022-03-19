@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class AddressBookMain {
     public static Scanner sc = new Scanner(System.in);
-    private static AddressBook addressBook = new AddressBook();
+    private static final AddressBook addressBook = new AddressBook();
     public Map<String, AddressBook> addressBookListMap = new HashMap<>();
     int count;
 
@@ -84,6 +84,7 @@ public class AddressBookMain {
                 ArrayList<ContactPerson> contacts = AddressBook.personByState.entrySet().stream()
                         .filter(findState -> findState.getKey().equals(stateName)).map(Map.Entry::getValue).findFirst()
                         .orElse(null);
+                assert contacts != null;
                 for (ContactPerson contact : contacts) {
                     System.out.println("First Name: " + contact.getFirstName() + " Last Name: " + contact.getLastName());
                 }
@@ -227,7 +228,9 @@ public class AddressBookMain {
                 System.out.println("13.Read data from file");
                 System.out.println("14.Write Data in CSV file");
                 System.out.println("15.Read data from CSV file");
-                System.out.println("16.Exit");
+                System.out.println("16.Write Data in the Json file");
+                System.out.println("17.Read data from Json file ");
+                System.out.println("18.Exit");
 
                 System.out.println("Enter choice: ");
                 int option = sc.nextInt();
@@ -322,6 +325,22 @@ public class AddressBookMain {
                         break;
 
                     case 16:
+                        try {
+                            AddressBook.writeDataInJSon();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+
+                    case 17:
+                        try {
+                            AddressBook.readDataFromJson();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+
+                    case 18:
                         flag = false;
                         break;
                 }
